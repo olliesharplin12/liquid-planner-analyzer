@@ -1,3 +1,10 @@
+# Setup Development Environment
+
+- IDE: VS Code
+- Install Python (ensure added to path)
+- Python Package Install Command: `pip install xlsxwriter requests`
+
+
 # Sprint Overtime Work Analyser
 
 Fetches all tasks for selected users and a time range. Uses a baseline view (or similar aspect) to compare tasks time at end of time range against baseline view. Seperates tasks out which were added after the start time. Creates a spreadsheet from the data.

@@ -5,10 +5,11 @@ from classes.Snapshot import Snapshot
 
 class Task:
 
-    def __init__(self, id: int, name: str, package_id: int, assignments: List[Assignment]):
+    def __init__(self, id: int, name: str, package_id: int, parent_crumbs: List[str], assignments: List[Assignment]):
         self.id = id
         self.name = name
         self.package_id = package_id
+        self.parent_crumbs = parent_crumbs
         self.assignments = assignments
         self.timesheet_entries: List[TimesheetEntry] = None
         self.sprint_start_snapshot: Snapshot | None = None
