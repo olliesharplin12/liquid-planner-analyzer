@@ -1,7 +1,7 @@
 # Setup Development Environment
 
 - IDE: VS Code
-- Install Python (ensure added to path)
+- Install Python v3.10+ (ensure added to path)
 - Python Package Install Command: `pip install xlsxwriter requests`
 
 
@@ -34,6 +34,11 @@ Fetches all tasks for selected users and a time range. Uses a baseline view (or 
 
 ### Get Sprint End Data
 - Get tasks (all info is contained).
+
+### TODO
+- Include timesheets from unspecified users when generating start logged time.
+- Add visual element for task being done in Excel output.
+- Update README documentation about script.
 
 
 # Personal Work Split Analyser
