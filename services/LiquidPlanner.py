@@ -77,3 +77,12 @@ def fetch_task_snapshots(task_id: int) -> List[Snapshot]:
         raise Exception(f'Response Error: {response.text}')
 
     return build_snapshots(response.json())
+
+def fetch_tasks_by_package_as_json(package_id: int) -> dict:
+    query_params: List[tuple[str, str]] = [('filter[]=package_id', package_id)]
+
+    response = get(FETCH_TASKS_URL, query_params)
+    if response.status_code != 200:
+        raise Exception(f'Response Error: {response.text}')
+
+    return response.json()

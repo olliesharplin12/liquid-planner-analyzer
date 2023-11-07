@@ -39,6 +39,7 @@ Fetches all tasks for selected users and a time range. Uses a baseline view (or 
 - Include timesheets from unspecified users when generating start logged time.
 - Add visual element for task being done in Excel output.
 - Update README documentation about script.
+- Add sprint work analysis by tag.
 
 
 # Personal Work Split Analyser
