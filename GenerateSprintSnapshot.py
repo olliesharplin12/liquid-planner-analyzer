@@ -10,11 +10,17 @@ SPRINT_PACKAGE_ID = 70546945
 
 def main():
     sharepoint_folder = get_sharepoint_directory(SPRINT_NUMBER)
+    filename = SNAPSHOT_FILENAME_FORMAT.format(SPRINT_NUMBER)
+    file_path = os.path.join(sharepoint_folder, filename)
+
+    if os.path.isfile(file_path):
+        print('A sprint {0} start snapshot already exists. Do you want to overwrite? (y/n)'.format(SPRINT_NUMBER))
+        if input().lower() != 'y':
+            print('Cancelled')
+            return
 
     sprint_tasks = fetch_tasks_by_package(SPRINT_PACKAGE_ID)
 
-    filename = SNAPSHOT_FILENAME_FORMAT.format(SPRINT_NUMBER)
-    file_path = os.path.join(sharepoint_folder, filename)
     with open(file_path, 'w') as file:
         json.dump(sprint_tasks, file, indent=4)
 
