@@ -11,9 +11,11 @@ from services.LiquidPlanner import fetch_tasks_by_package, fetch_tasks_by_ids, b
 from utils.Utils import get_sharepoint_directory
 from utils.Constants import SNAPSHOT_FILENAME_FORMAT
 
-SPRINT_NUMBER = 28
-SPRINT_PACKAGE_ID = 71312042
-SPRINT_START_TIME = '2024-02-12T21:20:00+00:00'  # (UTC) Must be a time equal to or just before the baseline was taken
+# TODO: Enforce these to be inputted when running script.
+# TODO: Subfolder totals in output do not take into account newly created tasks...
+SPRINT_NUMBER = 31
+SPRINT_PACKAGE_ID = 71604908
+SPRINT_START_TIME = '2024-03-31T22:35:00:00+00:00'  # (UTC) Must be a time equal to or just before the baseline was taken
 
 USER_IDS = [
     916262,   # Ollie

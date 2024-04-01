@@ -31,6 +31,13 @@ def build_tasks(json: List[dict], user_ids: List[int]) -> List[Task]:
 def build_timesheet_entries(json: List[dict]) -> List[TimesheetEntry]:
     return [TimesheetEntry(entry['item_id'], entry['activity_id'], entry['member_id'], entry['work']) for entry in json]
 
+def fetch_tasks() -> dict:
+    response = get(FETCH_TASKS_URL)
+    if response.status_code != 200:
+        raise Exception(f'Response Error: {response.text}')
+
+    return response.json()
+
 def fetch_tasks_by_package(package_id: int) -> dict:
     query_params: List[tuple[str, str]] = [('filter[]=package_id', package_id)]
 

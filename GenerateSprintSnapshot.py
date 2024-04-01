@@ -1,12 +1,12 @@
 import json
 import os
 
-from utils.Constants import SNAPSHOT_FILENAME_FORMAT
+from utils.Constants import SNAPSHOT_FILENAME_FORMAT, ALL_TASKS_SNAPSHOT_FILENAME_FORMAT
 from utils.Utils import get_sharepoint_directory
-from services.LiquidPlanner import fetch_tasks_by_package
+from services.LiquidPlanner import fetch_tasks, fetch_tasks_by_package
 
-SPRINT_NUMBER = 28
-SPRINT_PACKAGE_ID = 71312042
+SPRINT_NUMBER = 31
+SPRINT_PACKAGE_ID = 71604908
 
 def main():
     sharepoint_folder = get_sharepoint_directory(SPRINT_NUMBER)
@@ -23,6 +23,13 @@ def main():
 
     with open(file_path, 'w') as file:
         json.dump(sprint_tasks, file, indent=4)
+    
+    all_tasks = fetch_tasks()
+
+    filename = ALL_TASKS_SNAPSHOT_FILENAME_FORMAT.format(SPRINT_NUMBER)
+    file_path = os.path.join(sharepoint_folder, filename)
+    with open(file_path, 'w') as file:
+        json.dump(all_tasks, file, indent=4)
 
     print('Created sprint snapshot successfully')
 
