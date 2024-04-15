@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 from classes.Task import Task
 from classes.TimesheetEntry import TimesheetEntry
@@ -16,15 +16,15 @@ class TaskComparison:
     def get_parent_crumbs(self) -> List[str]:
         return self.end_task.parent_crumbs[1:]
     
-    def get_start_logged(self) -> float | None:
+    def get_start_logged(self) -> float:
         self.check_start_task_exists()
         return self.start_task.get_current_logged()
 
-    def get_start_remaining(self) -> float | None:
+    def get_start_remaining(self) -> Union[float, None]:
         self.check_start_task_exists()
         return self.start_task.get_current_remaining()
     
-    def get_start_total(self) -> float | None:
+    def get_start_total(self) -> Union[float, None]:
         self.check_start_task_exists()
         return self.get_start_logged() + self.get_start_remaining()
     
