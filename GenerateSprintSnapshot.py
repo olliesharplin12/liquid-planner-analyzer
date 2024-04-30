@@ -1,12 +1,13 @@
 import json
 import os
+import sys
 
 from utils.Constants import SNAPSHOT_FILENAME_FORMAT, ALL_TASKS_SNAPSHOT_FILENAME_FORMAT
 from utils.Utils import get_sharepoint_directory
 from services.LiquidPlanner import fetch_tasks, fetch_tasks_by_package
 
-SPRINT_NUMBER = 31
-SPRINT_PACKAGE_ID = 71604908
+SPRINT_NUMBER = 33
+SPRINT_PACKAGE_ID = 71797926
 
 def main():
     sharepoint_folder = get_sharepoint_directory(SPRINT_NUMBER)
@@ -20,6 +21,9 @@ def main():
             return
 
     sprint_tasks = fetch_tasks_by_package(SPRINT_PACKAGE_ID)
+    if len(sprint_tasks) == 0:
+        print('ERROR: No sprint tasks retrieved')
+        sys.exit(1)
 
     with open(file_path, 'w') as file:
         json.dump(sprint_tasks, file, indent=4)

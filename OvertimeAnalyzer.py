@@ -2,6 +2,7 @@ import os
 import json
 import datetime
 import xlsxwriter
+import argparse
 from typing import List
 
 from classes.Task import Task
@@ -9,13 +10,13 @@ from classes.TaskComparison import TaskComparison
 from classes.TimesheetEntry import TimesheetEntry
 from services.LiquidPlanner import fetch_tasks_by_package, fetch_tasks_by_ids, build_tasks, fetch_timesheet_enties_by_filters, build_timesheet_entries
 from utils.Utils import get_sharepoint_directory
-from utils.Constants import SNAPSHOT_FILENAME_FORMAT
+from utils.Constants import SNAPSHOT_FILENAME_FORMAT, ALL_TASKS_SNAPSHOT_FILENAME_FORMAT
 
 # TODO: Enforce these to be inputted when running script.
 # TODO: Subfolder totals in output do not take into account newly created tasks...
-SPRINT_NUMBER = 31
-SPRINT_PACKAGE_ID = 71604908
-SPRINT_START_TIME = '2024-03-31T22:35:00:00+00:00'  # (UTC) Must be a time equal to or just before the baseline was taken
+SPRINT_NUMBER = 33
+SPRINT_PACKAGE_ID = 71797926
+SPRINT_START_TIME = '2024-XX-XXTXX:XX:00:00+00:00'  # (UTC) Must be a time equal to or just before the baseline was taken
 
 USER_IDS = [
     916262,   # Ollie
@@ -44,16 +45,25 @@ def group_tasks_by_tree(tasks_comparisons: List[TaskComparison]) -> dict[str, Li
     ordered_keys.sort()
     return { key: grouped_tasks[key] for key in ordered_keys }
 
-def main():
+def main(use_full_snapshot: bool):
     # Read sprint start snapshot
     sprint_folder = get_sharepoint_directory(SPRINT_NUMBER)
 
-    filename = SNAPSHOT_FILENAME_FORMAT.format(SPRINT_NUMBER)
-    snapshot_file_path = os.path.join(sprint_folder, filename)
-    with open(snapshot_file_path, 'r') as file:
-        sprint_start_tasks_json = json.load(file)
-    
-    sprint_start_tasks: List[Task] = build_tasks(sprint_start_tasks_json, USER_IDS)
+    if use_full_snapshot:
+        filename = ALL_TASKS_SNAPSHOT_FILENAME_FORMAT.format(SPRINT_NUMBER)
+        snapshot_file_path = os.path.join(sprint_folder, filename)
+        with open(snapshot_file_path, 'r') as file:
+            sprint_start_tasks_json = json.load(file)
+        
+        sprint_start_tasks: List[Task] = [task for task in build_tasks(sprint_start_tasks_json, USER_IDS) if task.package_id == SPRINT_PACKAGE_ID]
+    else:
+        filename = SNAPSHOT_FILENAME_FORMAT.format(SPRINT_NUMBER)
+        snapshot_file_path = os.path.join(sprint_folder, filename)
+        with open(snapshot_file_path, 'r') as file:
+            sprint_start_tasks_json = json.load(file)
+        
+        sprint_start_tasks: List[Task] = build_tasks(sprint_start_tasks_json, USER_IDS)
+
     sprint_start_task_ids = [task.id for task in sprint_start_tasks]
 
     # Get current sprint tasks
@@ -238,4 +248,8 @@ def write_excel_non_sprint_task(task: TaskComparison, sheet, formats: dict, row_
     sheet.write_number(row_i, first_col_i+1, timesheet_logged_time)
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--use-full-snapshot', action='store_true', help='Uses the full sprint snapshot to generate the analytics spreadsheet')
+    args = parser.parse_args()
+
+    main(args.use_full_snapshot)
