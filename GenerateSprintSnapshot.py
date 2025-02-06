@@ -5,9 +5,8 @@ import sys
 from utils.Constants import SNAPSHOT_FILENAME_FORMAT, ALL_TASKS_SNAPSHOT_FILENAME_FORMAT
 from utils.Utils import get_sharepoint_directory
 from services.LiquidPlanner import fetch_tasks, fetch_tasks_by_package
+from env import SPRINT_NUMBER, SPRINT_PACKAGE_ID
 
-SPRINT_NUMBER = 33
-SPRINT_PACKAGE_ID = 71797926
 
 def main():
     sharepoint_folder = get_sharepoint_directory(SPRINT_NUMBER)

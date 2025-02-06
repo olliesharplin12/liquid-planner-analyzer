@@ -11,18 +11,8 @@ from classes.TimesheetEntry import TimesheetEntry
 from services.LiquidPlanner import fetch_tasks_by_package, fetch_tasks_by_ids, build_tasks, fetch_timesheet_enties_by_filters, build_timesheet_entries
 from utils.Utils import get_sharepoint_directory
 from utils.Constants import SNAPSHOT_FILENAME_FORMAT, ALL_TASKS_SNAPSHOT_FILENAME_FORMAT
+from env import SPRINT_NUMBER, SPRINT_PACKAGE_ID, SPRINT_START_TIME, USER_IDS
 
-# TODO: Enforce these to be inputted when running script.
-# TODO: Subfolder totals in output do not take into account newly created tasks...
-SPRINT_NUMBER = 33
-SPRINT_PACKAGE_ID = 71797926
-SPRINT_START_TIME = '2024-XX-XXTXX:XX:00:00+00:00'  # (UTC) Must be a time equal to or just before the baseline was taken
-
-USER_IDS = [
-    916262,   # Ollie
-    1062224,  # Finn
-    1071107   # Nathan
-]
 
 TASK_CRUMB_SEPARATOR = '00000'
 
@@ -153,6 +143,7 @@ def main(use_full_snapshot: bool):
             closed_successfully = True
         except xlsxwriter.exceptions.FileCreateError:
             input('Please ensure any existing versions of the Excel file are closed. Press \'Enter\' to retry.')
+    print(f'Saved analysis file to "{summary_file_path}"')
 
 def write_excel_task_group(is_sprint_task: bool, grouped_tasks: dict[str, List[TaskComparison]], sheet, formats: dict, row_i: int, first_col_i: int, first_task_col_i: int) -> int:
     previous_crumb = []
