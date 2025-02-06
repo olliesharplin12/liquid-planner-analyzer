@@ -3,6 +3,7 @@
 - IDE: VS Code
 - Install Python v3.10+ (ensure added to path)
 - Python Package Install Command: `pip install xlsxwriter requests`
+- Copy `env.py.template` to `env.py` and fill in environment variables as described
 
 
 # Sprint Overtime Work Analyser

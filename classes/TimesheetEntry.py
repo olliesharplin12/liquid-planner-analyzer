@@ -5,4 +5,3 @@ class TimesheetEntry():
         self.activity_id = activity_id
         self.member_id = member_id
         self.logged = logged
-
